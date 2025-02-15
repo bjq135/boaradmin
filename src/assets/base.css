@@ -1,0 +1,116 @@
+:root {
+  /* 行为相关颜色 */
+  --vt-color-primary: #409eff;
+  --vt-color-success: #4cd964;
+  --vt-color-warning: #f0ad4e;
+  --vt-color-error: #dd524d;
+  
+  /* 文字尺寸 */
+  --vt-font-size-sm: 13px;
+  --vt-font-size-base: 16px;
+  --vt-font-size-lg: 25px;
+  
+  /* 文字基本颜色 */
+  --vt-text-color: #333; /* 基本色 */
+  --vt-text-color-inverse: #fff; /* 反色 */
+  --vt-text-color-grey: #999; /* 辅助灰色，如加载更多的提示信息 */
+  --vt-text-color-placeholder: #8c8c8c;
+  --vt-text-color-disable: #c0c0c0;
+
+  /* 背景颜色 */
+  --vt-bg-color: #f2f5ff; 
+  --vt-bg-color-grey: #f1f1f1;
+  --vt-bg-color-hover: #f1f1f1;
+  --vt-bg-color-mask: rgba(34, 34, 34, 0.95);
+  --vt-bg-color-card: #ffffff;
+
+  /* 边框 */
+  --vt-border-radius: 4px;
+  --vt-border-color: #e3e5eb;
+  --vt-shadow-color: rgba(184, 184, 184, 0.5);
+}
+
+
+/* 夜间模式 */
+body.dark-mode {
+  --vt-text-color: #b9b9b9;
+  --vt-text-color-inverse: #333;
+  --vt-text-color-grey: #999;
+  --vt-text-color-placeholder: #808080;
+  --vt-text-color-disable: #c0c0c0;
+
+  --vt-bg-color: #2c2c2c;
+  --vt-bg-color-grey: #5a5a5a;
+  --vt-bg-color-hover: #979797;
+  --vt-bg-color-mask: rgba(34, 34, 34, 0.95);
+  --vt-bg-color-card: #272727;
+  
+  --vt-border-color: #303030;
+  --vt-shadow-color: #181818;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  body.dark-mode {
+    --vt-text-color: #b9b9b9;
+    --vt-text-color-inverse: #333;
+    --vt-text-color-grey: #999;
+    --vt-text-color-placeholder: #808080;
+    --vt-text-color-disable: #c0c0c0;
+
+    --vt-bg-color: #2c2c2c;
+    --vt-bg-color-grey: #5a5a5a;
+    --vt-bg-color-hover: #979797;
+    --vt-bg-color-mask: rgba(34, 34, 34, 0.95);
+    --vt-bg-color-card: #272727;
+    
+    --vt-border-color: #303030;
+    --vt-shadow-color: #181818;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--vt-text-color);
+  /* background: var(--vt-bg-color); */
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  line-height: 1.6;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.mt-5{ margin-top: 5px; }
+.mt-10{ margin-top: 10px; }
+.mt-15{ margin-top: 15px; }
+.mt-20{ margin-top: 20px; }
+
+
+
+
+
