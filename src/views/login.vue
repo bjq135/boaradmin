@@ -2,7 +2,7 @@
   <div class="auth-widget">
     <h2>登录</h2>
     <el-input v-model="account" placeholder="请输入账户" />
-    <el-input v-model="password" placeholder="请输入密码" />
+    <el-input v-model="password" type="password" placeholder="请输入密码" />
     <el-button type="primary" v-on:click="login(account, password)">登录</el-button>
   </div>
 </template>

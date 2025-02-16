@@ -25,6 +25,7 @@
         <el-select
           v-model="form.categories"
           multiple
+          clearable
           placeholder="Select"
           style="width: 240px"
         >
@@ -63,17 +64,12 @@
 import { ref, reactive, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
+const router = useRouter()
+
 import { ElMessage } from 'element-plus';
 import fetchWrapper from '../../utils/fetch-wrapper.js';
 
 const options = ref([]);
-// const router = useRouter();
-// console.log('router.params.id ', router);
-
-const route = useRoute();
-const articleId = route.params.id;
-
-// import myEditor from '../../components/myEditor.vue';
 
 import tinymce from 'tinymce/tinymce'
 import 'tinymce/themes/silver'
@@ -163,39 +159,53 @@ const init = {
 
 onMounted(async function(e){
   tinymce.init({});
+  await getCategories();
 });
 
 // do not use same name with ref
 const form = reactive({
   title:'',
   description:'',
-  categories:'',
+  categories:[],
   content:'',
   tags:'',
   is_show:'1'
 })
 
 
-async function getArticle(articleId){
+async function getCategories(){
   var jsonHeaders = new Headers({ 'Content-Type':'application/json' });
-  let url = 'http://127.0.0.1:3000/v1/articles/' + articleId;
+  let url = 'http://127.0.0.1:3000/v1/categories';
   var response = await fetch(url, { method:'GET', headers:jsonHeaders });
   var responseJson = await response.json();
   if(response.status == 200){
-    // console.log('json1: ',  responseJson.all_categories);
-    options.value = responseJson.all_categories.map(i => {
+    options.value = responseJson.map(i => {
       return {value:i.id, label:i.title};
     });
-    return responseJson;
+    form.categories.push(options.value[0].value)
   }else{
-    let error = responseJson.error ? responseJson.error : '登录失败';
-    ElMessage({ message:error, type:'error' });
+
   }
 }
 
 
 const onSubmit = async () => {
-  ElMessage({ message:'开发中。。。', type:'error' });
+  // ElMessage({ message:'开发中。。。', type:'error' });
+  let url = 'http://127.0.0.1:3000/v1/articles/';
+  let payload = JSON.stringify(form);
+  let jsonHeaders = new Headers({'Content-Type':'application/json'});
+  var response = await fetchWrapper(url, { method:'POST', headers:jsonHeaders, body:payload });
+  var responseJson = await response.json();
+  if(response.status == 201){
+    let id = responseJson.id;
+    ElMessage({ message:'添加成功，跳转中...', type:'success' });
+    setTimeout(()=>{
+      router.push('/admin/articles/'+id);
+    },1000);
+  }else{
+    let error = responseJson.error ? responseJson.error : '修改失败';
+    ElMessage({ message:error, type:'error' });
+  }
 }
 
 

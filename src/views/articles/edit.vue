@@ -25,6 +25,7 @@
         <el-select
           v-model="form.categories"
           multiple
+          clearable
           placeholder="Select"
           style="width: 240px"
         >
@@ -166,31 +167,24 @@ onMounted(async function(e){
   tinymce.init({});
 
   const article = await getArticle(articleId);
-  // console.log('article ', article);
+  console.log('article ', article.is_show);
   form.title = article.title;
   form.description = article.description;
   form.content = article.content;
   form.categories = article.categories;
+  form.categories = article.categories;
+  form.is_show = String(article.is_show);
 });
 
 // do not use same name with ref
 const form = reactive({
-  title:'文章标题',
-  description:'文章描述',
+  title:'',
+  description:'',
   categories:'',
-  content:'文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容',
+  content:'',
   tags:'',
-  is_show:'1'
+  // is_show:'1'
 })
-
-// const options = [
-//   { value: 'Option1', label: 'Option 1'},
-//   { value: 'Option2', label: 'Option 2'},
-//   { value: 'Option3', label: 'Option 3'},
-//   { value: 'Option4', label: 'Option 4'},
-//   { value: 'Option5', label: 'Option 5'}
-// ];
-
 
 async function getArticle(articleId){
   var jsonHeaders = new Headers({ 'Content-Type':'application/json' });
