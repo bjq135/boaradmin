@@ -1,5 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import IndexView from '../views/index.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import IndexView from '../views/index.vue';
+
+import { mainStore } from '../stores/main.js';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,7 +30,14 @@ const router = createRouter({
         { path: 'articles/add', component: () => import('../views/articles/add.vue') },
         { path: 'articles/edit', component: () => import('../views/articles/edit.vue') },
         { path: 'articles/:id',component: () => import('../views/articles/edit.vue'),},
-        { path: 'categories/index', component: () => import('../views/categories/index.vue') },
+        {
+          path: 'categories/index',
+          component: () => import('../views/categories/index.vue')
+        },
+        {
+          path: 'categories/add',
+          component: () => import('../views/categories/add.vue')
+        },
         { path: 'pages/index', component: () => import('../views/pages/index.vue') },
         { path: 'tags/index', component: () => import('../views/tags/index.vue') },
 
@@ -41,5 +50,16 @@ const router = createRouter({
     },
   ],
 })
+
+
+router.beforeEach(async (to, from) => {
+  let store = mainStore();
+  let isAuthenticated = store.user.id;
+
+  if ( !isAuthenticated && to.name !== 'login') {
+    return { name: 'login' }
+  }
+});
+
 
 export default router

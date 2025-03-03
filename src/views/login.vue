@@ -11,31 +11,39 @@
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus';
 
+import router from '../router/index.js';
+import { mainStore } from '../stores/main.js';
 
 const account = ref('');
 const password = ref('');
 
 async function login (account, password) {
-  console.log('登录');
-  var payload = JSON.stringify({ account, password });
-  var jsonHeaders = new Headers({ 'Content-Type':'application/json' });
-  var response = await fetch('http://127.0.0.1:3000/v1/auth/login', {
-      method:'POST',
-      body:payload,
-      headers:jsonHeaders
-  });
-  var responseJson = await response.json();
-  if(response.status == 200){
-    console.log('json1: ',  responseJson);
-    if(responseJson.token){
-      localStorage.setItem('token', responseJson.token);
-      location.href = '/admin/index'
+  try {
+    var payload = JSON.stringify({ account, password });
+    var jsonHeaders = new Headers({ 'Content-Type':'application/json' });
+    var response = await fetch('http://127.0.0.1:3000/v1/auth/login', {
+        method:'POST',
+        body:payload,
+        headers:jsonHeaders
+    });
+    var responseJson = await response.json();
+    if(response.status == 200){
+      // console.log('@@ ',  responseJson);
+      if(responseJson.token){
+        localStorage.setItem('token', responseJson.token);
+        const store = mainStore();
+        store.user = responseJson.user;
+        router.push('/admin/index');
+      }else{
+        ElMessage({message:'登录失败',type:'error'});
+      }
     }else{
-      ElMessage({message:'登录失败',type:'error'});
+      let error = responseJson.error ? responseJson.error : '登录失败';
+      ElMessage({ message:error, type:'error' });
     }
-  }else{
-    let error = responseJson.error ? responseJson.error : '登录失败';
-    ElMessage({ message:error, type:'error' });
+  } catch (e) {
+    console.log(e);
+    ElMessage({ message:e.message, type:'error' });
   }
 }
 

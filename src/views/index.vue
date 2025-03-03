@@ -87,6 +87,11 @@
 import { reactive, onMounted } from 'vue';
 import Chart from 'chart.js/auto';
 
+import { mainStore } from '../stores/main.js';
+
+const store = mainStore();
+// console.log('@@',store.user);
+
 const form = reactive({
   size: '50',
 });
